@@ -20,6 +20,11 @@
 #define RTS_PIN_NUMBER 22
 #define HWFC           false
 
+// Define channel hoping parameters
+#define channel_table_size 6
+#define timeslots_per_channel 2
+#define GZLL_RX_PERIOD 1800 // supports 1Mbps
+
 
 // Define payload length
 #define TX_PAYLOAD_LENGTH 5 ///< 5 byte payload length
@@ -91,11 +96,15 @@ int main(void)
 
     APP_ERROR_CHECK(err_code);
 
+
+
     // Initialize Gazell
     nrf_gzll_init(NRF_GZLL_MODE_HOST);
-    nrf_gzll_set_channel_table(channel_table,6);
+
+    nrf_gzll_set_timeslots_per_channel(timeslots_per_channel);
+    nrf_gzll_set_channel_table(channel_table,channel_table_size);
     nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
-    nrf_gzll_set_timeslot_period(900);
+    nrf_gzll_set_timeslot_period(GZLL_RX_PERIOD);
 
     // Addressing
     nrf_gzll_set_base_address_0(0x01020304);

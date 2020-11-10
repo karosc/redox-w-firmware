@@ -34,6 +34,7 @@ static uint8_t ack_payload[NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH]; ///< Placeholder 
 #define DEBOUNCE 10
 #define ACTIVITY 500
 
+
 // Key buffers
 static uint8_t keys[ROWS], keys_snapshot[ROWS], keys_buffer[ROWS];
 static uint32_t debounce_ticks, activity_ticks;
@@ -41,6 +42,11 @@ static volatile bool debouncing = false;
 
 // Debug helper variables
 static volatile bool init_ok, enable_ok, push_ok, pop_ok, tx_success;
+
+#define GZLL_RX_PERIOD 1800 // supports 1Mbps
+// Define channel hoping parameters
+#define channel_table_size 3
+#define timeslots_per_channel 2
 
 #ifdef COMPILE_LEFT
 static uint8_t channel_table[3]={4, 42, 77};
@@ -236,11 +242,12 @@ int main()
 
     // Attempt sending every packet up to 100 times
     nrf_gzll_set_max_tx_attempts(100);
-    nrf_gzll_set_timeslots_per_channel(4);
-    nrf_gzll_set_channel_table(channel_table,3);
+    nrf_gzll_set_timeslots_per_channel(timeslots_per_channel);
+    nrf_gzll_set_channel_table(channel_table,channel_table_size);
     nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
-    nrf_gzll_set_timeslot_period(900);
-
+    nrf_gzll_set_timeslot_period(GZLL_RX_PERIOD / 2);
+    nrf_gzll_set_timeslots_per_channel_when_device_out_of_sync(channel_table_size*timeslots_per_channel);
+    nrf_gzll_set_device_channel_selection_policy(NRF_GZLL_DEVICE_CHANNEL_SELECTION_POLICY_USE_SUCCESSFUL);
     // Addressing
     nrf_gzll_set_base_address_0(0x01020304);
     nrf_gzll_set_base_address_1(0x05060708);
