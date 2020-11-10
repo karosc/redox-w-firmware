@@ -8,33 +8,35 @@
 
 // left hand pins
 
-#define L_C01 10
-#define L_C02 9
-#define L_C03 7
-#define L_C04 6
-#define L_C05 5
-#define L_C06 4
-#define L_C07 3
-#define L_R01 19
-#define L_R02 18
-#define L_R03 17
-#define L_R04 14
-#define L_R05 13
+#define L_C01 18
+#define L_C02 17
+#define L_C03 16
+#define L_C04 15
+#define L_C05 14
+#define L_C06 13
+#define L_C07 12
+#define L_C08 11
+#define L_R01 21
+#define L_R02 22
+#define L_R03 23
+#define L_R04 24
+#define L_R05 25
 
 // right hand pins
 
-#define R_C01 6
-#define R_C02 5
-#define R_C03 4
-#define R_C04 3
-#define R_C05 2
-#define R_C06 0
-#define R_C07 30
+#define R_C01 18
+#define R_C02 17
+#define R_C03 16
+#define R_C04 15
+#define R_C05 14
+#define R_C06 13
+#define R_C07 12
+#define R_C08 11
 #define R_R01 21
 #define R_R02 22
 #define R_R03 23
-#define R_R04 28
-#define R_R05 29
+#define R_R04 24
+#define R_R05 25
 
 #ifdef COMPILE_LEFT
 
@@ -47,6 +49,7 @@
 #define C05 L_C05
 #define C06 L_C06
 #define C07 L_C07
+#define C08 L_C08
 #define R01 L_R01
 #define R02 L_R02
 #define R03 L_R03
@@ -66,6 +69,7 @@
 #define C05 R_C05
 #define C06 R_C06
 #define C07 R_C07
+#define C08 R_C08
 #define R01 R_R01
 #define R02 R_R02
 #define R03 R_R03
@@ -74,7 +78,7 @@
 
 #endif
 
-#define COLUMNS 7
+#define COLUMNS 8
 #define ROWS 5
 
 // Low frequency clock source to be used by the SoftDevice

@@ -20,7 +20,7 @@
 const nrf_drv_rtc_t rtc_maint = NRF_DRV_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
 const nrf_drv_rtc_t rtc_deb = NRF_DRV_RTC_INSTANCE(1); /**< Declaring an instance of nrf_drv_rtc for RTC1. */
 
-const uint32_t COL_PINS[COLUMNS] = { C01, C02, C03, C04, C05, C06, C07 };
+const uint32_t COL_PINS[COLUMNS] = { C01, C02, C03, C04, C05, C06, C07, C08 };
 const unsigned short REMAINING_POSITIONS = 8 - COLUMNS;
 
 // Define payload length
@@ -31,7 +31,7 @@ static uint8_t data_payload[TX_PAYLOAD_LENGTH];                ///< Payload to s
 static uint8_t ack_payload[NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH]; ///< Placeholder for received ACK payloads from Host.
 
 // Debounce time (dependent on tick frequency)
-#define DEBOUNCE 5
+#define DEBOUNCE 10
 #define ACTIVITY 500
 
 // Key buffers
@@ -65,6 +65,7 @@ static void gpio_config(void)
     nrf_gpio_cfg_output(C05);
     nrf_gpio_cfg_output(C06);
     nrf_gpio_cfg_output(C07);
+    nrf_gpio_cfg_output(C08);
 }
 
 // Return the key states
@@ -86,12 +87,12 @@ static void read_keys(void)
         nrf_gpio_pin_clear(COL_PINS[c]);
     }
 
-    keys_buffer[0] = row_stat[0] << REMAINING_POSITIONS;
-    keys_buffer[1] = row_stat[1] << REMAINING_POSITIONS;
-    keys_buffer[2] = row_stat[2] << REMAINING_POSITIONS;
-    keys_buffer[3] = row_stat[3] << REMAINING_POSITIONS;
-    keys_buffer[4] = row_stat[4] << REMAINING_POSITIONS;
-
+    keys_buffer[0] = row_stat[0];// << REMAINING_POSITIONS;
+    keys_buffer[1] = row_stat[1];// << REMAINING_POSITIONS;
+    keys_buffer[2] = row_stat[2];// << REMAINING_POSITIONS;
+    keys_buffer[3] = row_stat[3];// << REMAINING_POSITIONS;
+    keys_buffer[4] = row_stat[4] ;//<< REMAINING_POSITIONS;
+	
     return;
 }
 
@@ -193,6 +194,7 @@ static void handler_debounce(nrf_drv_rtc_int_type_t int_type)
             nrf_gpio_pin_set(C05);
             nrf_gpio_pin_set(C06);
             nrf_gpio_pin_set(C07);
+            nrf_gpio_pin_set(C08);
         }
 
     }
@@ -288,7 +290,7 @@ void GPIOTE_IRQHandler(void)
         nrf_gpio_pin_clear(C05);
         nrf_gpio_pin_clear(C06);
         nrf_gpio_pin_clear(C07);
-
+        nrf_gpio_pin_clear(C08);
         //TODO: proper interrupt handling to avoid fake interrupts because of matrix scanning
         //debouncing = false;
         //debounce_ticks = 0;
