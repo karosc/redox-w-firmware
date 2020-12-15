@@ -242,12 +242,14 @@ int main()
 
     // Attempt sending every packet up to 100 times
     nrf_gzll_set_max_tx_attempts(100);
-    nrf_gzll_set_timeslots_per_channel(timeslots_per_channel);
+    //nrf_gzll_set_tx_power(NRF_GZLL_TX_POWER_4_DBM);
+    nrf_gzll_set_timeslots_per_channel(4);
     nrf_gzll_set_channel_table(channel_table,channel_table_size);
-    nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
-    nrf_gzll_set_timeslot_period(GZLL_RX_PERIOD / 2);
-    nrf_gzll_set_timeslots_per_channel_when_device_out_of_sync(channel_table_size*timeslots_per_channel);
+    //nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
+    nrf_gzll_set_timeslot_period(600);
+    nrf_gzll_set_timeslots_per_channel_when_device_out_of_sync(channel_table_size*(timeslots_per_channel+1));
     nrf_gzll_set_device_channel_selection_policy(NRF_GZLL_DEVICE_CHANNEL_SELECTION_POLICY_USE_SUCCESSFUL);
+    nrf_gzll_set_sync_lifetime(channel_table_size*timeslots_per_channel*3); //derived from components\properitary_rf\gzll\nrf_gzll_constants
     // Addressing
     nrf_gzll_set_base_address_0(0x01020304);
     nrf_gzll_set_base_address_1(0x05060708);

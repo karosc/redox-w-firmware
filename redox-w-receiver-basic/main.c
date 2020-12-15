@@ -99,12 +99,13 @@ int main(void)
 
 
     // Initialize Gazell
-    nrf_gzll_init(NRF_GZLL_MODE_HOST);
-
+    nrf_gzll_init(NRF_GZLL_MODE_HOST);   
+    //nrf_gzll_set_tx_power(NRF_GZLL_TX_POWER_4_DBM);
     nrf_gzll_set_timeslots_per_channel(timeslots_per_channel);
     nrf_gzll_set_channel_table(channel_table,channel_table_size);
-    nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
-    nrf_gzll_set_timeslot_period(GZLL_RX_PERIOD);
+    //nrf_gzll_set_datarate(NRF_GZLL_DATARATE_1MBIT);
+    nrf_gzll_set_timeslot_period(600);
+
 
     // Addressing
     nrf_gzll_set_base_address_0(0x01020304);
